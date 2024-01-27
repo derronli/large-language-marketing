@@ -12,16 +12,19 @@ const Dashboard = ({ children, header }: DashboardProps) => {
       sx={{
         width: "100vw",
         height: "100vh",
-        bgcolor: "#F7F5F0",
+        backgroundColor: "#F7F5F0",
         flexDirection: "column",
-        justifyContent: "center",
-        gap: 1,
+        alignItems: "center",
+        gap: "8px",
+        padding: "32px",
       }}
     >
       <Text size="sm" sx={{ textTransform: "uppercase" }}>
         {product_name}
       </Text>
-      <Text size="xl">{header}</Text>
+      <Text size="32px" sx={{ fontFamily: "Source Serif Pro" }}>
+        {header}
+      </Text>
       {children}
     </Flex>
   );

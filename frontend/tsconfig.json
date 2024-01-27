@@ -13,7 +13,6 @@
       "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@atoms/*": ["src/components/atoms/*"],
       "@forms/*": ["src/components/forms/*"],
       "@molecules/*": ["src/components/molecules/*"],
       "@organisms/*": ["src/components/organisms/*"],
@@ -34,6 +33,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "src/components/atoms/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

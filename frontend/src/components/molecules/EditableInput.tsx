@@ -1,4 +1,4 @@
-import { CheckIcon, CloseButton, Flex, Input } from "@mantine/core";
+import { CheckIcon, CloseButton, Flex, Input, Textarea } from "@mantine/core";
 import { useMemo, useState } from "react";
 
 interface EditableInput {
@@ -7,7 +7,7 @@ interface EditableInput {
 }
 
 const EditableInput = ({ text, handleSave }: EditableInput) => {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(text);
 
   const rightSection = useMemo(
@@ -39,13 +39,17 @@ const EditableInput = ({ text, handleSave }: EditableInput) => {
   );
 
   return (
-    <Input
+    <Textarea
+      autosize
       disabled={disabled}
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
       // @ts-ignore
       rightSectionPointerEvents="all"
       rightSection={rightSection}
+      styles={{
+        input: { fontSize: "12px", overflow: "hidden" },
+      }}
     />
   );
 };
