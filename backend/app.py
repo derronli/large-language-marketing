@@ -23,19 +23,10 @@ def profile():
         campaign_id = insert_profile(company, product, era, avenues)
         theme = find_theme(company, product, era)
 
-        # TODO: some sort of loop to generate posts, then also save to database -- move this logic to model.cohere file
-        post = make_post(theme)
-        caption = caption_post(post)
-        # TODO: model to generate and encode image... or link? idk.
-        image = "dummy"
+        posts = make_post(theme)
+        insert_posts(campaign_id, posts)
 
-        insert_posts(campaign_id, [{
-            "date": datetime(2022, 1, 1),
-            "caption": caption,
-            "image": image
-        }])
-
-        return jsonify({"success": True, "message": "Profile created successfully"})
+        return jsonify({"success": True, "message": "Profile and campaign created successfully"})
     except Exception as e:
         return bad_request(e)
 

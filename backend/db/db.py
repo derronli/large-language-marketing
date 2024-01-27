@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+def parse_text(text):
+    parsed = text.replace("'", "''")
+    return parsed
+
 def get_conn():
     conn = psycopg2.connect(
             host=os.getenv('POSTGRES_HOST'),
@@ -37,7 +41,7 @@ def insert_posts(campaign_id, posts):
         query = "INSERT INTO posts (post_id, campaign_id, date, status, caption, image) VALUES "
         for row in posts:
             post_id = str(uuid.uuid4())
-            query += f"('{post_id}', '{campaign_id}', '{row['date']}', 'created', '{row['caption']}', '{row['image']}'),"
+            query += f"('{post_id}', '{campaign_id}', '{row['date']}', 'created', '{parse_text(row['caption'])}', '{row['image']}'),"
         query = query[:-1]
         cur.execute(query)
         conn.commit()

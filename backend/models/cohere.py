@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import cohere
 from models.prompts import FIND_THEME_PROMPT, MAKE_POST_PROMPT, CAPTION_POST_PROMPT
 
+from datetime import datetime
+
 load_dotenv()
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 co = cohere.Client(COHERE_API_KEY)
@@ -23,10 +25,22 @@ def find_theme(company, product, era):
 def make_post(theme):
     prompt=use_prompt(MAKE_POST_PROMPT, theme=theme)
     response = co.generate(
-        prompt=prompt
+        prompt=prompt,
+        num_generations=3
     )
 
-    return response.generations[0].text
+    posts = []
+    for desc in response.generations:
+        caption = caption_post(desc.text)
+        date = datetime(2022, 1, 1)
+        
+        posts.append({
+            "caption": caption,
+            "date": date,
+            "image": "dummy link" # TODO: model to generate and encode image... LINK ideally
+        })
+
+    return posts
 
 def caption_post(post):
     prompt=use_prompt(CAPTION_POST_PROMPT, post={post})
