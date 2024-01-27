@@ -52,6 +52,37 @@ def insert_posts(campaign_id, posts):
         cur.close()
         conn.close()
 
+def select_posts(campaign_id):
+    conn = get_conn()
+    cur = conn.cursor()
+    try:
+        query = f"""
+            SELECT post_id, date, status, caption, image
+            FROM posts
+            WHERE campaign_id = '{campaign_id}'
+            ORDER BY date
+        """
+        cur.execute(query)
+        
+        posts = []
+        rows = cur.fetchall()
+        for row in rows:
+            post_id, date, status, caption, image = row
+            posts.append({
+                "post_id": post_id,
+                "date": date,
+                "status": status,
+                "caption": caption,
+                "image": image
+            })
+        return posts
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+
 def update_post(post_id, item_name, item):
     conn = get_conn()
     cur = conn.cursor()

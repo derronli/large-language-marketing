@@ -1,7 +1,7 @@
-from models.cohere import find_theme, make_post, caption_post
+from models.cohere import find_theme, make_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status
+from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
 from datetime import datetime
 
 app = Flask(__name__)
@@ -33,11 +33,11 @@ def profile():
 @app.route('/campaign', methods=['GET'])
 def campaign():
     try:
-        # TODO: pull posts database and return
-        post = []
-
+        campaign_id = request.args.get('campaign_id')
+        posts = select_posts(campaign_id)
+       
         return jsonify(
-            data=post
+            data=posts
         )
     except Exception as e:
         return bad_request(e)
