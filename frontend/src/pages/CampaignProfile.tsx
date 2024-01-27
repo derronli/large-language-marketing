@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import { saveProfile } from "@api/db";
+import useRequest from "@hooks/useRequest";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Dashboard from "src/components/layouts/Dashboard";
 
 const CampaignProfile = () => {
+  const { makeRequest } = useRequest({
+    request: saveProfile,
+    requestByDefault: false,
+  });
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
+    company: "",
     product: "",
     era: "",
-    marketingOption: [
+    avenues: [
       {
         platform: "option1",
         handle: "",
@@ -15,40 +26,49 @@ const CampaignProfile = () => {
 
   const handleChange = (event: any) => {
     const { name, value, id } = event.target;
-    if (name === "marketingOption" + id) {
-      const marketingOptions = [...formData.marketingOption];
+    if (name === "avenues" + id) {
+      const avenues = [...formData.avenues];
       if (event.target.tagName == "SELECT") {
-        marketingOptions[id].platform = value;
+        avenues[id].platform = value;
       } else {
-        marketingOptions[id].handle = value;
+        avenues[id].handle = value;
       }
       setFormData((prevFormData) => ({
         ...prevFormData,
-        ["marketingOption"]: marketingOptions,
+        ["avenues"]: avenues,
       }));
     } else {
       setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     }
-    console.log(formData);
   };
 
-  const addMarketingOption = (event: any) => {
+  const addAvenues = (event: any) => {
     event.preventDefault();
     // Create a copy of the formData object
     const formDataCopy = { ...formData };
 
-    // Create a new marketing option object and push it to the marketingOption array
-    const newMarketingOption = {
+    // Create a new marketing option object and push it to the avenues array
+    const newAvenues = {
       platform: "option1", // Change this to the desired platform
       handle: "", // Set the handle as needed
     };
-    formDataCopy.marketingOption.push(newMarketingOption);
+    formDataCopy.avenues.push(newAvenues);
 
     // Update the state with the new formData
     setFormData(formDataCopy);
   };
+
+  const handleSubmit = useCallback(
+    async (e: any) => {
+      e.preventDefault();
+      await makeRequest(formData);
+      navigate("/plan");
+    },
+    [formData]
+  );
+
   return (
-    <Dashboard header="Let's dive into the product">
+    <Dashboard header="Let's dive into the product.">
       <form
         style={{
           display: "flex",
@@ -57,10 +77,25 @@ const CampaignProfile = () => {
           width: "80%",
           margin: "auto",
         }}
+        onSubmit={handleSubmit}
       >
         <div className="formSection">
+          <label htmlFor="company" className="font1">
+            Describe the company, organization, or brand.
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            className="formSize2 formTextBorder"
+            placeholder="Start typing here..."
+          />
+        </div>
+        <div className="formSection">
           <label htmlFor="product" className="font1">
-            What are your trying to sell?
+            Describe what's being marketed.
           </label>
           <textarea
             id="product"
@@ -73,7 +108,7 @@ const CampaignProfile = () => {
         </div>
         <div className="formSection">
           <label htmlFor="era" className="font1">
-            What era are you trying to go for?
+            Describe the era/theme to throwback to.
           </label>
           <input
             type="text"
@@ -86,11 +121,11 @@ const CampaignProfile = () => {
           />
         </div>
         <div className="formSection">
-          <label htmlFor="marketingOption" className="font1">
-            Which avenues of marketing are you using?
+          <label htmlFor="avenues" className="font1">
+            List and configure the avenues of marketing being used.
           </label>
 
-          {formData.marketingOption.map((option, index) => (
+          {formData.avenues.map((option, index) => (
             <div
               style={{
                 display: "flex",
@@ -100,7 +135,7 @@ const CampaignProfile = () => {
               key={index}
             >
               <select
-                name={"marketingOption" + index}
+                name={"avenues" + index}
                 id={"" + index}
                 value={option.platform}
                 onChange={handleChange}
@@ -113,7 +148,7 @@ const CampaignProfile = () => {
               </select>
               <input
                 type="text"
-                name={"marketingOption" + index}
+                name={"avenues" + index}
                 id={"" + index}
                 value={option.handle}
                 onChange={handleChange}
@@ -125,7 +160,7 @@ const CampaignProfile = () => {
             </div>
           ))}
 
-          <button className="formBtn formBtnXL" onClick={addMarketingOption}>
+          <button className="formBtn formBtnXL" onClick={addAvenues}>
             ADD ANOTHER
           </button>
         </div>

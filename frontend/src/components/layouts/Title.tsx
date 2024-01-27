@@ -8,9 +8,9 @@ interface TitleProps {
 }
 
 const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
-  let firstHalfMain = mainTitle.split("deeper")[0];
-  let secondHalfMain = mainTitle.split("deeper")[1];
-  let navigate = useNavigate();
+  const firstHalfMain = mainTitle.split("deeper")[0];
+  const secondHalfMain = mainTitle.split("deeper")[1];
+  const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate("/profile");

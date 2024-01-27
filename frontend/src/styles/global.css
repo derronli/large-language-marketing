@@ -28,7 +28,7 @@
 .formTextBorder {
   margin-top: 3px;
   border: 0;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06);
+  /* box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06); */
   resize: none;
   border-radius: 5px;
   font-family: "Inter";
@@ -70,6 +70,6 @@
   transition: 0.2s;
 }
 
-.formBtnXL:hover {
+/* .formBtnXL:hover {
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1);
-}
+} */
