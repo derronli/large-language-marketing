@@ -1,5 +1,6 @@
 // import useRequest from "@hooks/useRequest";
-import Dashboard from "src/components/layouts/dashboard";
+
+import Dashboard from "src/components/layouts/Dashboard";
 
 const Plan = () => {
   //   const { data, makeRequest } = useRequest({
