@@ -1,4 +1,4 @@
-from models.cohere import find_theme, get_items
+from models.cohere import find_theme, make_post, caption_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -21,13 +21,14 @@ def campaign():
 
         company = "HeartConnect is a pioneering dating app company dedicated to bringing people together through meaningful connections. Our mission is to create a space where individuals can discover genuine relationships, whether it's finding a soulmate, making new friends, or simply enjoying engaging conversations. With a commitment to user privacy and inclusivity, HeartConnect is redefining the way people meet and form connections in the digital age."
         product = "Introducing HeartSync, our flagship dating app designed to make the journey of finding love both exciting and authentic. HeartSync goes beyond conventional swiping, incorporating intelligent matching algorithms that consider not only preferences but also shared interests, values, and communication styles. With features like icebreaker games and personalized date suggestions, HeartSync creates a fun and interactive environment for users to forge meaningful connections. Join HeartSync today and embark on a journey to discover the connection your heart truly desires."
-        era = "2000s"
+        era = "early 2000s"
 
         theme = find_theme(company, product, era)
-        test = get_items(theme)
+        post = make_post(theme)
+        caption = caption_post(post)
 
-        print(test)
-        print("fin")
+        print(post)
+        print(caption)
 
         return 'campaign info here'
     except Exception as e:

@@ -1,11 +1,8 @@
 import os
 from dotenv import load_dotenv
-import re
 
 import cohere
-from cohere.responses.classify import Example
-from models.prompts import FIND_THEME_PROMPT
-from models.examples import MARKETING_ITEMS
+from models.prompts import FIND_THEME_PROMPT, MAKE_POST_PROMPT, CAPTION_POST_PROMPT
 
 load_dotenv()
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
@@ -23,33 +20,18 @@ def find_theme(company, product, era):
 
     return response.generations[0].text
 
-# examples = [
-#     (Example(example, type))
-#     for type, examples in MARKETING_ITEMS.items()
-#     for example in examples
-# ]
+def make_post(theme):
+    prompt=use_prompt(MAKE_POST_PROMPT, theme=theme)
+    response = co.generate(
+        prompt=prompt
+    )
 
-# def get_items(theme):
-#     inputs = re.split(r'(\d+)', theme)
+    return response.generations[0].text
 
-#     print(inputs)
+def caption_post(post):
+    prompt=use_prompt(CAPTION_POST_PROMPT, post={post})
+    response = co.generate(
+        prompt=prompt
+    )
 
-#     response = co.classify(
-#         inputs=inputs,
-#         examples=examples,
-#     )
-
-#     return response
-
-# def rank_items(theme):
-#     query = "What are specific marketing action items to put in a planner?"
-#     documents = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|\!)\s', theme)
-
-#     response = co.rerank(
-#         query=query, 
-#         documents=documents, 
-#         top_n=5, 
-#         model="rerank-multilingual-v2.0"
-#     )
-
-#     return response
+    return response.generations[0].text
