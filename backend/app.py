@@ -1,6 +1,7 @@
 from models.cohere import find_theme, make_post, caption_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from db.db import insert_profile
 
 import uuid
 
@@ -18,9 +19,9 @@ def profile():
         company = data.get('company')
         product = data.get('product')
         era = data.get('era')
-        company_id = str(uuid.uuid4())
+        avenues = data.get('avenues')
 
-        # TODO: save profile to database
+        insert_profile(company, product, era, avenues)
 
         theme = find_theme(company, product, era)
 
@@ -39,16 +40,11 @@ def profile():
 @app.route('/campaign', methods=['GET'])
 def campaign():
     try:
-        # TODO: pull from database, not requests, and only return posts, not theme
-        data = request.get_json()
-        company = data.get('company')
-        product = data.get('product')
-        era = data.get('era')
-
-        theme = find_theme(company, product, era)
+        # TODO: pull posts database and return
+        post = []
 
         return jsonify(
-            data=theme
+            data=post
         )
     except Exception as e:
         return bad_request(e)
@@ -65,7 +61,7 @@ def date():
         return bad_request(e)
 
 @app.route('/save/caption', methods=['POST'])
-def date():
+def caption():
     try:
         data = request.get_json()
         caption = data.get('caption')
@@ -76,7 +72,7 @@ def date():
         return bad_request(e)
     
 @app.route('/save/status', methods=['POST'])
-def date():
+def status():
     try:
         data = request.get_json()
         status = data.get('status')
