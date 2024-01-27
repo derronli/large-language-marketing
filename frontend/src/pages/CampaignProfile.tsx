@@ -91,7 +91,14 @@ const CampaignProfile = () => {
           </label>
 
           {formData.marketingOption.map((option, index) => (
-            <div style={{ display: "flex", flexDirection: "row" }} key={index}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginBottom: "5px",
+              }}
+              key={index}
+            >
               <select
                 name={"marketingOption" + index}
                 id={"" + index}
