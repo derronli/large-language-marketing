@@ -1,5 +1,5 @@
 import { ActionIcon, Flex, Textarea } from "@mantine/core";
-import { IconCheck, IconEdit, IconX } from "@tabler/icons-react";
+import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 interface EditableInput {
@@ -18,18 +18,19 @@ const EditableInput = ({ text, handleSave }: EditableInput) => {
           aria-label="Edit caption"
           onClick={() => setDisabled(false)}
         >
-          <IconEdit />
+          <IconPencil size={20} strokeWidth={1.5} />
         </ActionIcon>
       ) : (
-        <Flex sx={{ flexDirection: "column" }}>
+        <Flex sx={{ flexDirection: "column", gap: "8px" }}>
           <ActionIcon
+            disabled={value == text}
             aria-label="Save caption changes"
             onClick={() => {
               handleSave(value);
               setDisabled(true);
             }}
           >
-            <IconCheck />
+            <IconCheck strokeWidth={1.5} />
           </ActionIcon>
           <ActionIcon
             aria-label="Cancel caption changes"
@@ -38,11 +39,11 @@ const EditableInput = ({ text, handleSave }: EditableInput) => {
               setDisabled(true);
             }}
           >
-            <IconX />
+            <IconX strokeWidth={1.5} />
           </ActionIcon>
         </Flex>
       ),
-    [disabled, setDisabled, setValue, handleSave]
+    [disabled, value, setDisabled, setValue, handleSave]
   );
 
   return (

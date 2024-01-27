@@ -1,5 +1,6 @@
 import { Action } from "@constants/types";
 import { Button, Flex, Text } from "@mantine/core";
+import DatePicker from "@molecules/DatePicker";
 import EditableInput from "@molecules/EditableInput";
 
 interface CardProps {
@@ -20,46 +21,49 @@ const ActionCard = ({
   actions,
 }: CardProps) => {
   return (
-    <Flex
-      sx={{
-        flexDirection: "column",
-        borderRadius: "5px",
-        backgroundColor: "white",
-        width: "400px",
-      }}
-    >
+    <Flex sx={{ flexDirection: "column" }}>
+      <DatePicker date={new Date()} handleSave={() => {}} />
       <Flex
         sx={{
-          width: "100%",
-          backgroundColor: "black",
-          padding: "8px 16px",
-          borderRadius: "5px 5px 0 0",
+          flexDirection: "column",
+          borderRadius: "5px",
+          backgroundColor: "white",
+          width: "400px",
         }}
       >
-        <Text size="sm" color="white">
-          {label}
-        </Text>
-      </Flex>
-      <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
-        <Flex sx={{ maxWidth: "100%" }}>
-          <img
-            style={{ width: "100%" }}
-            src="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: replace placeholder
-          />
+        <Flex
+          sx={{
+            width: "100%",
+            backgroundColor: "black",
+            padding: "8px 16px",
+            borderRadius: "5px 5px 0 0",
+          }}
+        >
+          <Text size="sm" color="white">
+            {label}
+          </Text>
         </Flex>
-        {caption && <EditableInput text={caption} handleSave={() => {}} />}
-        <Flex sx={{ width: "100%", justifyContent: "flex-end", gap: "8px" }}>
-          {actions.map((a) => (
-            <Button
-              key={a.name}
-              onClick={a.action}
-              variant={a.variant}
-              color="dark"
-              sx={{ fontSize: "12px" }}
-            >
-              {a.label}
-            </Button>
-          ))}
+        <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
+          <Flex sx={{ maxWidth: "100%" }}>
+            <img
+              style={{ width: "100%" }}
+              src="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: replace placeholder
+            />
+          </Flex>
+          {caption && <EditableInput text={caption} handleSave={() => {}} />}
+          <Flex sx={{ width: "100%", justifyContent: "flex-end", gap: "8px" }}>
+            {actions.map((a) => (
+              <Button
+                key={a.name}
+                onClick={a.action}
+                variant={a.variant}
+                color="dark"
+                sx={{ fontSize: "12px" }}
+              >
+                {a.label}
+              </Button>
+            ))}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
