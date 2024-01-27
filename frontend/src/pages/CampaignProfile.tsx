@@ -5,14 +5,48 @@ const CampaignProfile = () => {
   const [formData, setFormData] = useState({
     product: "",
     era: "",
-    marketingOption: "option1",
+    marketingOption: [
+      {
+        platform: "option1",
+        handle: "",
+      },
+    ],
   });
 
   const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    const { name, value, id } = event.target;
+    if (name === "marketingOption" + id) {
+      const marketingOptions = [...formData.marketingOption];
+      if (event.target.tagName == "SELECT") {
+        marketingOptions[id].platform = value;
+      } else {
+        marketingOptions[id].handle = value;
+      }
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        ["marketingOption"]: marketingOptions,
+      }));
+    } else {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    }
+    console.log(formData);
   };
 
+  const addMarketingOption = (event: any) => {
+    event.preventDefault();
+    // Create a copy of the formData object
+    const formDataCopy = { ...formData };
+
+    // Create a new marketing option object and push it to the marketingOption array
+    const newMarketingOption = {
+      platform: "option1", // Change this to the desired platform
+      handle: "", // Set the handle as needed
+    };
+    formDataCopy.marketingOption.push(newMarketingOption);
+
+    // Update the state with the new formData
+    setFormData(formDataCopy);
+  };
   return (
     <Dashboard header="Let's dive into the product">
       <form
@@ -55,30 +89,40 @@ const CampaignProfile = () => {
           <label htmlFor="marketingOption" className="font1">
             Which avenues of marketing are you using?
           </label>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <select
-              name="marketingOption"
-              id="marketingOption"
-              value={formData.marketingOption}
-              onChange={handleChange}
-              className="formTextBorder formSize2"
-              style={{ flex: 0.75 }}
-            >
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <input
-              type="text"
-              id=""
-              name=""
-              className="formSize2 formTextBorder"
-              placeholder="Type a handle here..."
-              style={{ flex: 1, marginLeft: "10px" }}
-            />
-            <button className="formBtn formBtnSM">CONFIGURE</button>
-          </div>
+
+          {formData.marketingOption.map((option, index) => (
+            <div style={{ display: "flex", flexDirection: "row" }} key={index}>
+              <select
+                name={"marketingOption" + index}
+                id={"" + index}
+                value={option.platform}
+                onChange={handleChange}
+                className="formTextBorder formSize2"
+                style={{ flex: 0.75 }}
+              >
+                <option value="option1">Instagram</option>
+                <option value="option2">Facebook</option>
+                <option value="option3">YouTube</option>
+              </select>
+              <input
+                type="text"
+                name={"marketingOption" + index}
+                id={"" + index}
+                value={option.handle}
+                onChange={handleChange}
+                className="formSize2 formTextBorder"
+                placeholder="Type a handle here..."
+                style={{ flex: 1, marginLeft: "10px" }}
+              />
+              <button className="formBtn formBtnSM">CONFIGURE</button>
+            </div>
+          ))}
+
+          <button className="formBtn formBtnXL" onClick={addMarketingOption}>
+            ADD ANOTHER
+          </button>
         </div>
+
         <button type="submit" className="formBtn formBtnLG">
           GENERATE CAMPAIGN PLAN
         </button>

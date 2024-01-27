@@ -57,5 +57,20 @@
 .formBtnLG {
   margin: 10px auto;
   padding: 16px 50px;
+}
 
+.formBtnXL {
+  background-color: white;
+  color: black;
+  font-family: "Inter";
+  font-size: 12px;
+  border-radius: 5px;
+  border:0;
+  margin: 10px 0;
+  padding: 16px 50px;
+  transition: 0.2s;
+}
+
+.formBtnXL:hover {
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1), 0 4px 4px 0 rgba(0,0,0,0.1);
 }
