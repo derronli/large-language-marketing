@@ -166,7 +166,7 @@ const CampaignProfile = () => {
         </div>
 
         <button type="submit" className="formBtn formBtnLG">
-          GENERATE CAMPAIGN PLAN
+          GENERATE CAMPAIGN
         </button>
       </form>
     </Dashboard>
