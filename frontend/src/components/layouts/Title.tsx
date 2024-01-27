@@ -24,6 +24,7 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         height: "100vh",
         backgroundColor: "#F7F5F0",
         flexDirection: "column",
+        justifyContent: "center",
         alignItems: "center",
         gap: "8px",
         padding: "32px",

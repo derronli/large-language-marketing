@@ -19,7 +19,6 @@
 .formText1 {
   padding: 13px;
   height: 116px;
-
 }
 
 .formSize2 {
@@ -29,7 +28,7 @@
 .formTextBorder {
   margin-top: 3px;
   border: 0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06);
   resize: none;
   border-radius: 5px;
   font-family: "Inter";
@@ -46,13 +45,12 @@
   font-family: "Inter";
   font-size: 12px;
   border-radius: 5px;
-  border:0
+  border: 0;
 }
 
 .formBtnSM {
   padding: 0px 18px;
   margin-left: 10px;
-
 }
 
 .formBtnLG {
@@ -66,12 +64,12 @@
   font-family: "Inter";
   font-size: 12px;
   border-radius: 5px;
-  border:0;
+  border: 0;
   margin: 10px 0;
   padding: 16px 50px;
   transition: 0.2s;
 }
 
 .formBtnXL:hover {
-  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1), 0 4px 4px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1);
 }

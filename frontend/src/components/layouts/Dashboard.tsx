@@ -25,7 +25,7 @@ const Dashboard = ({ children, header }: DashboardProps) => {
       <Text size="32px" sx={{ fontFamily: "Source Serif Pro" }}>
         {header}
       </Text>
-      <Flex sx={{ width: "100%", overflow: "hidden" }}>{children}</Flex>
+      <Flex sx={{ width: "100%" }}>{children}</Flex>
     </Flex>
   );
 };
