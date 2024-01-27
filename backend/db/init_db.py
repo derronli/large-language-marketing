@@ -10,15 +10,18 @@ def init_db():
 
     cur = conn.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS companies ('
-                'company_id UUID PRIMARY KEY,'
-                'company TEXT,'
-                'product TEXT,'
-                'era TEXT,'
-                'avenues VARCHAR[]);')
+                'campaign_id UUID PRIMARY KEY,'
+                'company_id UUID,'
+                'company TEXT NOT NULL,'
+                'product TEXT NOT NULL,'
+                'era TEXT NOT NULL,'
+                'avenues VARCHAR[] NOT NULL);')
 
     cur.execute('CREATE TABLE IF NOT EXISTS posts ('
                 'post_id UUID PRIMARY KEY,'
+                'campaign_id UUID,'
                 'date DATE,'
+                'status TEXT,'
                 'caption TEXT,'
                 'image TEXT);') #tentative
     conn.commit()

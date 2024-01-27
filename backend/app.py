@@ -1,7 +1,7 @@
 from models.cohere import find_theme, make_post, caption_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from db.db import insert_profile
+from db.db import insert_profile, update_post_caption, update_post_date, update_post_status
 
 import uuid
 
@@ -21,8 +21,7 @@ def profile():
         era = data.get('era')
         avenues = data.get('avenues')
 
-        insert_profile(company, product, era, avenues)
-
+        campaign_id = insert_profile(company, product, era, avenues)
         theme = find_theme(company, product, era)
 
         # TODO: some sort of multiple loop to generate posts directly here, then also save to database -- move this logic to db file
@@ -53,10 +52,9 @@ def campaign():
 def date():
     try:
         data = request.get_json()
+        post_id = data.get('post_id')
         date = data.get('date')
-
-        # TODO: save to database
-
+        update_post_date(post_id, date)
     except Exception as e:
         return bad_request(e)
 
@@ -64,10 +62,9 @@ def date():
 def caption():
     try:
         data = request.get_json()
+        post_id = data.get('post_id')
         caption = data.get('caption')
-
-        # TODO: save to database
-
+        update_post_caption(post_id, caption)
     except Exception as e:
         return bad_request(e)
     
@@ -75,10 +72,9 @@ def caption():
 def status():
     try:
         data = request.get_json()
+        post_id = data.get('post_id')
         status = data.get('status')
-
-        # TODO: save to database
-
+        update_post_status(post_id, status)
     except Exception as e:
         return bad_request(e)
 
