@@ -3,7 +3,6 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 import uuid
-import base64
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -19,6 +18,7 @@ def profile():
         company = data.get('company')
         product = data.get('product')
         era = data.get('era')
+        company_id = str(uuid.uuid4())
 
         # TODO: save profile to database
 
