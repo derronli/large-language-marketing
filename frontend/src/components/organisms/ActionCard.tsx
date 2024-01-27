@@ -56,6 +56,7 @@ const ActionCard = ({
               onClick={a.action}
               variant={a.variant}
               color="dark"
+              sx={{ fontSize: "12px" }}
             >
               {a.label}
             </Button>

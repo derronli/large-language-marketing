@@ -19,13 +19,13 @@ const Plan = () => {
           {
             name: "post",
             label: "Post now",
-            action: () => console.log("click"),
+            action: () => {},
             variant: "filled",
           },
           {
             name: "schedule",
-            label: "Schedule",
-            action: () => console.log("click"),
+            label: "Schedule post",
+            action: () => {},
             variant: "outline",
           },
         ].reverse()}
