@@ -1,9 +1,8 @@
 from models.cohere import find_theme, make_post, caption_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from db.db import insert_profile, update_post_caption, update_post_date, update_post_status
-
-import uuid
+from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status
+from datetime import datetime
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -24,13 +23,17 @@ def profile():
         campaign_id = insert_profile(company, product, era, avenues)
         theme = find_theme(company, product, era)
 
-        # TODO: some sort of multiple loop to generate posts directly here, then also save to database -- move this logic to db file
+        # TODO: some sort of loop to generate posts, then also save to database -- move this logic to model.cohere file
         post = make_post(theme)
         caption = caption_post(post)
-        post_id = str(uuid.uuid4())
-
-        # TODO: model to generate and encode image
+        # TODO: model to generate and encode image... or link? idk.
         image = "dummy"
+
+        insert_posts(campaign_id, [{
+            "date": datetime(2022, 1, 1),
+            "caption": caption,
+            "image": image
+        }])
 
         return jsonify({"success": True, "message": "Profile created successfully"})
     except Exception as e:
