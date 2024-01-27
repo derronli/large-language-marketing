@@ -2,10 +2,7 @@ from models.cohere import find_theme, make_post
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
-from datetime import datetime
 from models.instagram import createMediaObject, publishMedia, init_creds
-
-import uuid
 
 app = Flask(__name__)
 cors = CORS(app)
