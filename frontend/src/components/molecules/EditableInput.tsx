@@ -1,4 +1,5 @@
-import { CheckIcon, CloseButton, Flex, Input, Textarea } from "@mantine/core";
+import { ActionIcon, Flex, Textarea } from "@mantine/core";
+import { IconCheck, IconEdit, IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 interface EditableInput {
@@ -13,26 +14,32 @@ const EditableInput = ({ text, handleSave }: EditableInput) => {
   const rightSection = useMemo(
     () =>
       disabled ? (
-        <CloseButton
+        <ActionIcon
           aria-label="Edit caption"
           onClick={() => setDisabled(false)}
-        />
+        >
+          <IconEdit />
+        </ActionIcon>
       ) : (
         <Flex sx={{ flexDirection: "column" }}>
-          <CheckIcon
+          <ActionIcon
             aria-label="Save caption changes"
             onClick={() => {
               handleSave(value);
               setDisabled(true);
             }}
-          />
-          <CloseButton
+          >
+            <IconCheck />
+          </ActionIcon>
+          <ActionIcon
             aria-label="Cancel caption changes"
             onClick={() => {
               setValue(text);
               setDisabled(true);
             }}
-          />
+          >
+            <IconX />
+          </ActionIcon>
         </Flex>
       ),
     [disabled, setDisabled, setValue, handleSave]
@@ -44,11 +51,13 @@ const EditableInput = ({ text, handleSave }: EditableInput) => {
       disabled={disabled}
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
-      // @ts-ignore
-      rightSectionPointerEvents="all"
       rightSection={rightSection}
       styles={{
         input: { fontSize: "12px", overflow: "hidden" },
+        rightSection: {
+          padding: "8px",
+          alignItems: "flex-start",
+        },
       }}
     />
   );

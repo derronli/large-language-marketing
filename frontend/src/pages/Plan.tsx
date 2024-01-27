@@ -22,7 +22,13 @@ const Plan = () => {
             action: () => console.log("click"),
             variant: "filled",
           },
-        ]}
+          {
+            name: "schedule",
+            label: "Schedule",
+            action: () => console.log("click"),
+            variant: "outline",
+          },
+        ].reverse()}
       />
     </Dashboard>
   );

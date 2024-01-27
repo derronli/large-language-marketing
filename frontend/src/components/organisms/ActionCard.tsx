@@ -51,7 +51,12 @@ const ActionCard = ({
         {caption && <EditableInput text={caption} handleSave={() => {}} />}
         <Flex sx={{ width: "100%", justifyContent: "flex-end", gap: "8px" }}>
           {actions.map((a) => (
-            <Button key={a.name} onClick={a.action} variant={a.variant}>
+            <Button
+              key={a.name}
+              onClick={a.action}
+              variant={a.variant}
+              color="dark"
+            >
               {a.label}
             </Button>
           ))}
