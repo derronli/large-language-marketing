@@ -21,10 +21,10 @@ def profile():
         era = data.get('era')
 
         # TODO: save profile to database
-        
+
         theme = find_theme(company, product, era)
 
-        # TODO: some sort of multiple loop to generate posts directly here, then also save to database
+        # TODO: some sort of multiple loop to generate posts directly here, then also save to database -- move this logic to db file
         post = make_post(theme)
         caption = caption_post(post)
         post_id = str(uuid.uuid4())
@@ -39,7 +39,7 @@ def profile():
 @app.route('/campaign', methods=['GET'])
 def campaign():
     try:
-        # TODO: pull from database, not requests, and return posts, not theme
+        # TODO: pull from database, not requests, and only return posts, not theme
         data = request.get_json()
         company = data.get('company')
         product = data.get('product')
