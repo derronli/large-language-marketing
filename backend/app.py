@@ -12,7 +12,7 @@ cors = CORS(app)
 def bad_request(e):
     return jsonify({'API error': str(e)}), 400
 
-@app.route('/save/profile', methods=['POST'])
+@app.route('/profile', methods=['POST'])
 def profile():
     try:
         data = request.get_json()
@@ -20,8 +20,17 @@ def profile():
         product = data.get('product')
         era = data.get('era')
 
-        # TODO: save to database
-        # TODO: generate posts directly here (separate function, not route), then save to database
+        # TODO: save profile to database
+        
+        theme = find_theme(company, product, era)
+
+        # TODO: some sort of multiple loop to generate posts directly here, then also save to database
+        post = make_post(theme)
+        caption = caption_post(post)
+        post_id = str(uuid.uuid4())
+
+        # TODO: model to generate and encode image
+        image = "dummy"
 
         return jsonify({"success": True, "message": "Profile created successfully"})
     except Exception as e:
@@ -30,7 +39,7 @@ def profile():
 @app.route('/campaign', methods=['GET'])
 def campaign():
     try:
-        # TODO: pull from database instead and return posts, not theme
+        # TODO: pull from database, not requests, and return posts, not theme
         data = request.get_json()
         company = data.get('company')
         product = data.get('product')
@@ -73,43 +82,6 @@ def date():
         status = data.get('status')
 
         # TODO: save to database
-
-    except Exception as e:
-        return bad_request(e)
-    
-# move to separate function, not route
-@app.route('/post')
-def post():
-    try:
-        data = request.get_json()
-        theme = data.get('theme')
-
-        post = make_post(theme)
-        caption = caption_post(post)
-        post_id = str(uuid.uuid4())
-
-        return jsonify(
-            id=post_id,
-            post=post,
-            caption=caption
-        )
-    except Exception as e:
-        return bad_request(e)
-    
-# move to separate function, not route
-@app.route('/image')
-def image():
-    try:
-        data = request.get_json()
-        post_id = data.get('post_id')
-
-        # TODO: generate and encode image
-        image = "dummy"
-
-        return jsonify(
-            id=post_id,
-            image=image
-        )
 
     except Exception as e:
         return bad_request(e)

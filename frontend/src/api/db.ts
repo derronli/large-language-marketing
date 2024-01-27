@@ -12,7 +12,7 @@ interface saveProfileProps {
 
 export const saveProfile = async ({ params }: saveProfileProps) => {
   const data = await post({
-    url: `${baseURL}/save/profile`,
+    url: `${baseURL}/profile`,
     body: params,
   });
 
