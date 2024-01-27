@@ -22,11 +22,10 @@ const ActionCard = ({
   return (
     <Flex
       sx={{
-        width: "100%",
         flexDirection: "column",
         borderRadius: "5px",
         backgroundColor: "white",
-        maxWidth: "400px",
+        width: "400px",
       }}
     >
       <Flex
