@@ -10,3 +10,52 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.formText1 {
+  padding: 13px;
+  height: 116px;
+
+}
+
+.formSize2 {
+  padding: 13px;
+}
+
+.formTextBorder {
+  margin-top: 3px;
+  border: 0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+  resize: none;
+  border-radius: 5px;
+  font-family: "Inter";
+  font-size: 12px;
+}
+
+.font1 {
+  font-family: "Source Serif Pro";
+}
+
+.formBtn {
+  background-color: black;
+  color: white;
+  font-family: "Inter";
+  font-size: 12px;
+  border-radius: 5px;
+  border:0
+}
+
+.formBtnSM {
+  padding: 0px 18px;
+  margin-left: 10px;
+}
+
+.formBtnLG {
+  margin: 10px auto;
+  padding: 16px 50px;
+
+}
