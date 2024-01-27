@@ -3,6 +3,9 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
 from datetime import datetime
+from models.instagram import createMediaObject, publishMedia, init_creds
+
+import uuid
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -69,6 +72,21 @@ def status():
         post_id = data.get('post_id')
         status = data.get('status')
         update_post_status(post_id, status)
+    except Exception as e:
+        return bad_request(e)
+    
+@app.route('/instagram', methods=['POST'])
+def instagram_post():
+    try:
+        params = init_creds()
+        data = request.get_json()
+        params['media_type'] = data.get('media_type')
+        params['media_url'] = data.get('media_url')
+        params['caption'] = data.get('caption')
+
+        imageMediaObjectResponse = createMediaObject( params ) # create a media object through the api
+        publishImageResponse = publishMedia( imageMediaObjectResponse['id'], params ) # publish the media object you just create
+        return publishImageResponse, 200
     except Exception as e:
         return bad_request(e)
 
