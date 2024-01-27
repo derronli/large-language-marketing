@@ -1,17 +1,26 @@
-// import useRequest from "@hooks/useRequest";
+import { getCampaign } from "@api/content";
+import useRequest from "@hooks/useRequest";
 import { Flex } from "@mantine/core";
 import ActionCard from "@organisms/ActionCard";
+import { useEffect } from "react";
 import Dashboard from "src/components/layouts/Dashboard";
 import Pannable from "src/components/layouts/Pannable";
 
 const Plan = () => {
-  //   const { data, makeRequest } = useRequest({
-  //     request: dummyGet,
-  //     requestByDefault: false,
-  //   });
+  const { data, makeRequest } = useRequest({
+    request: getCampaign,
+    requestByDefault: false,
+  });
 
-  // FIX THE FACT THAT YOU CAN NO LONGER EDIT
+  useEffect(() => {
+    if (!data) {
+      makeRequest();
+    }
+  }, [data, makeRequest]);
+
   return (
+    // TODO: render as loading while data is not yet produced
+    // TODO: render based on data
     <Dashboard header="Here's the plan.">
       <Pannable>
         <Flex
@@ -43,6 +52,7 @@ const Plan = () => {
                 variant: "outline",
               },
             ].reverse()}
+            mutate={makeRequest}
           />
           <ActionCard
             label="Social Media Post"
@@ -63,6 +73,7 @@ const Plan = () => {
                 variant: "outline",
               },
             ].reverse()}
+            mutate={makeRequest}
           />
           <ActionCard
             label="Social Media Post"
@@ -83,6 +94,7 @@ const Plan = () => {
                 variant: "outline",
               },
             ].reverse()}
+            mutate={makeRequest}
           />
         </Flex>
       </Pannable>
