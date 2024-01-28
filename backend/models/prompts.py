@@ -12,6 +12,6 @@ MAKE_POST_PROMPT="""
 """
 
 CAPTION_POST_PROMPT="""
-    Generate a caption for the following social media post. The caption will engage social media users who come across this post. Remove any double quotation marks. Extract only the caption itself in the response.
+    Generate a caption for the following social media post. The caption will engage social media users who come across this post. Remove all double quotation marks. Extract only the caption itself in the response.
     Post: {post}
 """

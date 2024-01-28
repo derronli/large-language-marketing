@@ -46,17 +46,3 @@ export const erasePost = async ({ params }: erasePostProps) => {
 
   return data;
 };
-
-// TODO: delete if unneeded
-interface getPostProps {
-  params: { postId?: string };
-}
-
-export const getPost = async ({ params }: getPostProps) => {
-  const data = await get({
-    url: `${baseURL}/post`,
-    params: params,
-  });
-
-  return data;
-};

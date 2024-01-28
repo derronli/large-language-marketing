@@ -16,7 +16,6 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
     navigate("/profile");
   };
 
-  // TODO: Fix the italics on deeper
   return (
     <Flex
       sx={{

@@ -1,7 +1,7 @@
 import requests
 from models.cohere import find_theme, make_post
 from models.dallE import edit_img
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts, update_post_image
 from models.instagram import createMediaObject, publishMedia, init_creds
@@ -23,17 +23,10 @@ def profile():
         era = data.get('era')
         avenues = data.get('avenues')
 
-        # save profile for campaign
-        campaign_id = insert_profile(company, product, era, avenues)
-
-        # generate theme
-        theme = find_theme(company, product, era)
-
-        # generate posts
-        posts = make_post(theme, product, era)
-
-        # save posts for campaign
-        insert_posts(campaign_id, posts)
+        campaign_id = insert_profile(company, product, era, avenues)  # save profile for campaign        
+        theme = find_theme(company, product, era) # generate theme
+        posts = make_post(theme, product, era) # generate posts
+        insert_posts(campaign_id, posts) # save posts for campaign
 
         return jsonify(
             id=campaign_id
@@ -102,9 +95,6 @@ def instagram_post():
     except Exception as e:
         return bad_request(e)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route('/erase', methods=['POST'])
 def erase_post():
     try:
@@ -116,11 +106,10 @@ def erase_post():
         _, encoded = image_url.split(',', 1)
         image_binary = base64.b64decode(encoded)
 
-        image = edit_img(image_binary, prompt)
-        update_post_image(post_id, image)
+        image = edit_img(image_binary, prompt) # generate modified image
+        update_post_image(post_id, image)  # save modified image
 
-        return jsonify({ 'success': True})
-
+        return jsonify({ 'success': True })
     except Exception as e:
         return bad_request(e)
     
@@ -128,12 +117,14 @@ def erase_post():
 def proxy_img():
     try:
         url = request.args.get('url')
+
+        # retrieve and encode image
         response = requests.get(url)
-
         base64_image = base64.b64encode(response.content).decode('utf-8')
-        return jsonify({'image': base64_image})
 
-        # headers = {key: value for key, value in response.headers.items()}
-        # return send_file(response.content, mimetype=response.headers['Content-Type'])
+        return jsonify({'image': base64_image})
     except Exception as e:
         return bad_request(e)
+
+if __name__ == '__main__':
+    app.run(debug=True)

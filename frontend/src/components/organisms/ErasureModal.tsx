@@ -18,38 +18,11 @@ const ErasureModal = ({
 }: ErasureModal) => {
   const [loading, setLoading] = useState(true);
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const [url, setUrl] = useState<any>("");
   const [prompt, setPrompt] = useState<string>("");
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const canvasCopyRef = useRef<HTMLCanvasElement | null>(null);
 
   const drawImage = useCallback(() => {
-    // const img = new Image();
-
-    // if (canvas && canvasCopy) {
-    //   const ctx = canvas.getContext("2d");
-    //   const ctxCopy = canvasCopy.getContext("2d");
-
-    //   if (ctx && ctxCopy) {
-    //     img.onload = () => {
-    //       setLoading(false);
-
-    //       canvas.width = img.width;
-    //       canvas.height = img.height;
-
-    //       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    //       canvasCopy.width = canvas.width;
-    //       canvasCopy.height = canvas.height;
-
-    //       ctxCopy.drawImage(canvas, 0, 0, canvasCopy.width, canvasCopy.height);
-    //     };
-    //   }
-    // }
-    // // img.setAttribute("crossorigin", "anonymous");
-    // img.src = image;
-
     fetch(`http://localhost:5000/proxy?url=${encodeURIComponent(image)}`)
       .then((response) => response.json())
       .then((data) => {
@@ -62,6 +35,8 @@ const ErasureModal = ({
         const img = new Image();
 
         img.onload = () => {
+          setLoading(false);
+
           if (canvas) {
             const ctx = canvas.getContext("2d");
             canvas.width = img.width;
@@ -116,7 +91,6 @@ const ErasureModal = ({
         const reader = new FileReader();
         reader.onloadend = async () => {
           const dataUrl = reader.result;
-          setUrl(dataUrl);
           attemptErase(dataUrl, prompt);
         };
         blob && reader.readAsDataURL(blob);
@@ -136,12 +110,6 @@ const ErasureModal = ({
     [handleErase, mutate]
   );
 
-  // useEffect(() => {
-  //   if (url && prompt) {
-  //     attemptErase(url, prompt);
-  //   }
-  // }, [url, prompt]);
-
   return (
     <Modal opened={open} onClose={handleClose} title="Edit Image" size="auto">
       <Flex
@@ -160,12 +128,6 @@ const ErasureModal = ({
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
         ></canvas>
-        {/* <canvas
-          ref={canvasCopyRef}
-          onMouseMove={handleMouseMove}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-        ></canvas> */}
         <Text>
           Click and drag to erase areas on the image directly. Enter what you
           want to replace erased parts with below.
