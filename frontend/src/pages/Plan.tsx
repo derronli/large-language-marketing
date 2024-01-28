@@ -30,7 +30,7 @@ const Plan = () => {
             gap: "60px",
           }}
         >
-          {data &&
+          {data ? (
             data.data.map((d: any) => (
               <ActionCard
                 key={d.post_id}
@@ -52,16 +52,24 @@ const Plan = () => {
                   {
                     name: "schedule",
                     label: "Schedule post",
-                    action: () => {
-                      console.log("schedule");
-                    },
+                    action: () => {},
                     variant: "outline",
                     disabled: d.status == "posted",
                   },
                 ].reverse()}
                 mutate={makeRequest}
               />
-            ))}
+            ))
+          ) : (
+            <ActionCard
+              id={"placeholder card"}
+              label="Placeholder"
+              date={new Date()}
+              image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
+              actions={[]}
+              mutate={makeRequest}
+            />
+          )}
         </Flex>
       </Pannable>
     </Dashboard>

@@ -87,7 +87,7 @@ def update_post(post_id, item_name, item):
     conn = get_conn()
     cur = conn.cursor()
     try:
-        cur.execute(f"UPDATE posts SET {item_name}='{item}' WHERE post_id='{post_id}';")
+        cur.execute(f"UPDATE posts SET {item_name}='{parse_text(item)}' WHERE post_id='{post_id}';")
         conn.commit()
     except Exception as e:
         conn.rollback()
