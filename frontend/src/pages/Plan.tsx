@@ -26,7 +26,7 @@ const Plan = () => {
       <Pannable>
         <Flex
           sx={{
-            width: "100%",
+            margin: "1000px",
             gap: "60px",
           }}
         >
@@ -44,9 +44,7 @@ const Plan = () => {
                   {
                     name: "post",
                     label: "Post now",
-                    action: () => {
-                      console.log("post");
-                    },
+                    action: () => {},
                     variant: "filled",
                     disabled: d.status == "posted",
                   },
@@ -66,7 +64,7 @@ const Plan = () => {
               id={"placeholder card"}
               label="Placeholder"
               date={new Date()}
-              image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
+              image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg"
               actions={[]}
               mutate={makeRequest}
             />

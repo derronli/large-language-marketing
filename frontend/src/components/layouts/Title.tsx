@@ -26,20 +26,20 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: "8px",
+        gap: "24px",
         padding: "32px",
       }}
     >
-      <Flex sx={{ maxWidth: "505px", justifyContent: "center" }}>
+      <Flex sx={{ maxWidth: "180px", justifyContent: "center" }}>
         <img style={{ width: "100%" }} src={img} />
       </Flex>
 
-      <Flex sx={{ flexDirection: "column", width: "650px", gap: "12px" }}>
+      <Flex sx={{ flexDirection: "column", width: "550px", gap: "24px" }}>
         <Text
-          size="100px"
+          size="84px"
           sx={{
             fontFamily: "Source Serif Pro",
-            lineHeight: "80px",
+            lineHeight: "64px",
             textAlign: "center",
           }}
         >
@@ -49,7 +49,7 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         </Text>
 
         <Text
-          size="18px"
+          size="16px"
           sx={{
             fontFamily: "Source Serif Pro",
             textAlign: "center",

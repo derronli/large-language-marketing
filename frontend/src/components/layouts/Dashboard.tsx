@@ -17,15 +17,33 @@ const Dashboard = ({ children, header }: DashboardProps) => {
         alignItems: "center",
         gap: "8px",
         padding: "32px",
+        boxSizing: "border-box",
       }}
     >
-      <Text size="sm" sx={{ textTransform: "uppercase" }}>
-        {product_name}
-      </Text>
-      <Text size="32px" sx={{ fontFamily: "Source Serif Pro" }}>
-        {header}
-      </Text>
-      <Flex sx={{ width: "100%" }}>{children}</Flex>
+      <Flex
+        sx={{
+          height: "15%",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "12px",
+        }}
+      >
+        <Text
+          sx={{
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            fontWeight: 100,
+            fontSize: "10px",
+          }}
+        >
+          {product_name}
+        </Text>
+        <Text size="32px" sx={{ fontFamily: "Source Serif Pro" }}>
+          {header}
+        </Text>
+      </Flex>
+      <Flex sx={{ width: "100%", height: "85%" }}>{children}</Flex>
     </Flex>
   );
 };

@@ -2,7 +2,7 @@ import { saveCaption, saveDate, saveStatus } from "@api/db";
 import { Action } from "@constants/types";
 import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
-import { Button, Flex, Text } from "@mantine/core";
+import { Button, Flex, LoadingOverlay, Text } from "@mantine/core";
 import DatePicker from "@molecules/DatePicker";
 import EditableInput from "@molecules/EditableInput";
 import { useState } from "react";
@@ -49,11 +49,14 @@ const ActionCard = ({
     requestByDefault: false,
   });
 
-  const { data: requestPublishRes, makeRequest: requestPublishPost } =
-    useRequest({
-      request: publishPost,
-      requestByDefault: false,
-    });
+  const {
+    data: requestPublishRes,
+    loading,
+    makeRequest: requestPublishPost,
+  } = useRequest({
+    request: publishPost,
+    requestByDefault: false,
+  });
 
   const handleSaveDate = async (v: Date) => {
     await requestSaveDate({
@@ -130,6 +133,7 @@ const ActionCard = ({
                 variant={a.variant}
                 color="dark"
                 sx={{ fontSize: "12px" }}
+                disabled={status == "posted"}
               >
                 {a.label}
               </Button>
@@ -144,6 +148,9 @@ const ActionCard = ({
           handleClose={() => setOpen(null)}
           handleAction={handleAction}
         />
+      )}
+      {loading && (
+        <LoadingOverlay visible={loading} zIndex={1000} overlayBlur={2} />
       )}
     </Flex>
   );

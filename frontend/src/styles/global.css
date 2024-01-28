@@ -46,18 +46,19 @@
   font-size: 12px;
   border-radius: 5px;
   border: 0;
-  cursor: "pointer";
+  cursor: pointer;
 }
 
 .formBtnSM {
   padding: 0px 18px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .formBtnLG {
   margin: 10px auto;
   padding: 16px 50px;
-  cursor: "pointer";
+  cursor: pointer;
 }
 
 .formBtnXL {

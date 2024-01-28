@@ -27,7 +27,7 @@ def make_post(theme, product, era):
     prompt=use_prompt(MAKE_POST_PROMPT, theme=theme)
     response = co.generate(
         prompt=prompt,
-        num_generations=2
+        num_generations=3
     )
 
     descs = []
