@@ -1,6 +1,8 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from io import BytesIO
+
 
 load_dotenv()
 client = OpenAI(
@@ -50,10 +52,14 @@ def make_dallE_call(prompt):
 @param imgFileName MUST be saved in temp_img_edit + MUST have .png extension
 @param prompt MUST start with: "replace with..."
 '''
-def edit_img(imgFileName, editPrompt):
+def edit_img(image_binary, editPrompt):
+
+  # Create a BytesIO object from image_binary
+  image_stream = BytesIO(image_binary)
+
   response = client.images.edit(
     model="dall-e-2",
-    image=open(f"./temp_img_edit/{imgFileName}", "rb"),
+    image=image_stream,
     prompt=editPrompt,
     n=1,
     size="1024x1024"
