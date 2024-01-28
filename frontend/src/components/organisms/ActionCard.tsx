@@ -1,4 +1,4 @@
-import { saveCaption, saveDate } from "@api/db";
+import { saveCaption, saveDate, saveStatus } from "@api/db";
 import { Action } from "@constants/types";
 import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
@@ -16,6 +16,7 @@ interface CardProps {
   desc?: string;
   image?: string;
   caption?: string;
+  status?: string;
   actions: Action[];
   mutate: (v: any) => void;
 }
@@ -26,6 +27,7 @@ const ActionCard = ({
   date,
   image,
   caption,
+  status,
   actions,
   mutate,
 }: CardProps) => {
@@ -39,6 +41,11 @@ const ActionCard = ({
 
   const { makeRequest: requestSaveCaption } = useRequest({
     request: saveCaption,
+    requestByDefault: false,
+  });
+
+  const { makeRequest: requestSaveStatus } = useRequest({
+    request: saveStatus,
     requestByDefault: false,
   });
 
@@ -64,19 +71,30 @@ const ActionCard = ({
     mutate(`campaign_id=${campaign}`);
   };
 
+  const handleSaveStatus = async (v: string) => {
+    await requestSaveStatus({
+      post_id: id,
+      status: v,
+    });
+    mutate(`campaign_id=${campaign}`);
+  };
+
   const handleAction = async (type: string) => {
     if (image && caption) {
-      requestPublishPost({
+      await requestPublishPost({
         media_url:
           "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg", // TODO: replace
         media_type: type === "Static Post" ? "IMAGE" : "STORIES",
         caption: caption,
       });
+      await handleSaveStatus("posted");
     }
   };
 
   return (
-    <Flex sx={{ flexDirection: "column" }}>
+    <Flex
+      sx={{ flexDirection: "column", opacity: status == "posted" ? 0.5 : 1 }}
+    >
       <DatePicker date={date} handleSave={handleSaveDate} />
       <Flex
         sx={{

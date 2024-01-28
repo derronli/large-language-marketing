@@ -39,6 +39,7 @@ const Plan = () => {
                 date={new Date(Date.parse(d.date))}
                 image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
                 caption={d.caption}
+                status={d.status}
                 actions={[
                   {
                     name: "post",
