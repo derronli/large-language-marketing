@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Button, Flex, Loader, Modal, Textarea, Text } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  Loader,
+  Modal,
+  Textarea,
+  Text,
+  LoadingOverlay,
+} from "@mantine/core";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -18,7 +26,7 @@ const ErasureModal = ({
   mutate,
   image,
 }: ErasureModal) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const [prompt, setPrompt] = useState<string>("");
 
@@ -37,8 +45,6 @@ const ErasureModal = ({
         const img = new Image();
 
         img.onload = () => {
-          setLoading(false);
-
           if (canvas) {
             const ctx = canvas.getContext("2d");
             canvas.width = img.width;
@@ -106,8 +112,11 @@ const ErasureModal = ({
 
   const attemptErase = useCallback(
     async (url: any, prompt: any) => {
+      setLoading(true);
       await handleErase(url, prompt);
-      mutate();
+      await mutate();
+      setLoading(false);
+      handleClose();
     },
     [handleErase, mutate]
   );
@@ -123,7 +132,9 @@ const ErasureModal = ({
           justifyContent: "center",
         }}
       >
-        {loading && <Loader />}
+        {loading && (
+          <LoadingOverlay visible={loading} zIndex={1000} overlayBlur={2} />
+        )}
         <canvas
           ref={canvasRef}
           onMouseMove={handleMouseMove}
