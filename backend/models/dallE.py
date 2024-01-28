@@ -46,5 +46,27 @@ def make_dallE_call(prompt):
   # print(response.data[0].url)
   return response.data[0].url
 
+'''
+@param imgFileName MUST be saved in temp_img_edit + MUST have .png extension
+@param prompt MUST start with: "replace with..."
+'''
+def edit_img(imgFileName, editPrompt):
+  response = client.images.edit(
+    model="dall-e-2",
+    image=open(f"./temp_img_edit/{imgFileName}", "rb"),
+    prompt=editPrompt,
+    n=1,
+    size="1024x1024"
+  )
+  
+  image_url = response.data[0].url
+  print(image_url)
+
+  ### UPDATE DB HERE
+  #
+  #
+  #
+
+
 
 # get_img("A sepia-toned photograph of a young woman with short hair gazing at her new QuantumX smartphone, its sleek metallic surface reflecting a blurred image of her face, reminiscent of the iconic matrix digital code. She holds the phone with a sense of wonder and curiosity, her eyes wide as she imagines the futuristic possibilities that it offers. Behind her, a futuristic cityscape at night evokes a sense of cyberculture and the exciting world of the Matrix.", "iPhone", "2000s")
