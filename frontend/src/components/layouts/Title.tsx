@@ -31,12 +31,12 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         <img style={{ width: "100%" }} src={img} />
       </Flex>
 
-      <Flex sx={{ flexDirection: "column", width: "720px", gap: "24px" }}>
+      <Flex sx={{ flexDirection: "column", width: "750px", gap: "24px" }}>
         <Text
-          size="84px"
+          size="90px"
           sx={{
             fontFamily: "Source Serif Pro",
-            lineHeight: "64px",
+            lineHeight: "72px",
             textAlign: "center",
           }}
         >
