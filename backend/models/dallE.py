@@ -67,11 +67,8 @@ def edit_img(image_binary, editPrompt):
   
   image_url = response.data[0].url
   print(image_url)
+  return image_url
 
-  ### UPDATE DB HERE
-  #
-  #
-  #
 
 
 

@@ -1,4 +1,5 @@
 from models.cohere import find_theme, make_post
+from models.dallE import edit_img
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
@@ -112,6 +113,13 @@ def erase_post():
 
         _, encoded = image_url.split(',', 1)
         image_binary = base64.b64decode(encoded)
+        
+        # edit_img_url = edit_img(image_binary, editPrompt)
+
+        ### UPDATE DB HERE
+        #
+        #
+        #
 
     except Exception as e:
         return bad_request(e)
