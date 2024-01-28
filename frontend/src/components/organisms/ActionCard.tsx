@@ -8,6 +8,7 @@ import EditableInput from "@molecules/EditableInput";
 import { useState } from "react";
 import ActionModal from "./ActionModal";
 import { publishPost } from "@api/content";
+import ErasureModal from "./ErasureModal";
 
 interface CardProps {
   id: string;
@@ -152,6 +153,7 @@ const ActionCard = ({
       {loading && (
         <LoadingOverlay visible={loading} zIndex={1000} overlayBlur={2} />
       )}
+      <ErasureModal />
     </Flex>
   );
 };

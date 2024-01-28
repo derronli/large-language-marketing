@@ -49,7 +49,7 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         </Text>
 
         <Text
-          size="16px"
+          size="22px"
           sx={{
             fontFamily: "Source Serif Pro",
             textAlign: "center",
