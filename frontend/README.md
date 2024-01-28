@@ -1,6 +1,4 @@
-# Campaigner
-
-Add text here...
+# Frontend
 
 ## Development
 

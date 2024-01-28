@@ -8,8 +8,6 @@ interface TitleProps {
 }
 
 const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
-  const firstHalfMain = mainTitle.split("deeper")[0];
-  const secondHalfMain = mainTitle.split("deeper")[1];
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -33,7 +31,7 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
         <img style={{ width: "100%" }} src={img} />
       </Flex>
 
-      <Flex sx={{ flexDirection: "column", width: "550px", gap: "24px" }}>
+      <Flex sx={{ flexDirection: "column", width: "720px", gap: "24px" }}>
         <Text
           size="84px"
           sx={{
@@ -42,9 +40,10 @@ const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
             textAlign: "center",
           }}
         >
-          {firstHalfMain}
-          <span style={{ fontStyle: "italic", fontWeight: 300 }}>deeper</span>
-          {secondHalfMain}
+          <span>Tap into relics of the </span>
+          <span style={{ fontStyle: "italic", fontWeight: 300 }}>past</span>
+          <span> to reach people of </span>
+          <span style={{ fontStyle: "italic", fontWeight: 300 }}>today.</span>
         </Text>
 
         <Text
