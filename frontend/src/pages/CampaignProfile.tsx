@@ -2,7 +2,7 @@ import { saveProfile } from "@api/db";
 import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
 import { LoadingOverlay } from "@mantine/core";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "src/components/layouts/Dashboard";
 
@@ -65,14 +65,16 @@ const CampaignProfile = () => {
     async (e: any) => {
       e.preventDefault();
       await makeRequest(formData);
-
-      if (data) {
-        assignCampaign(data.id);
-        navigate("/plan");
-      }
     },
-    [formData, data]
+    [formData]
   );
+
+  useEffect(() => {
+    if (data) {
+      assignCampaign(data.id);
+      navigate("/plan");
+    }
+  }, [data]);
 
   return (
     <Dashboard header="Let's dive into the product.">
