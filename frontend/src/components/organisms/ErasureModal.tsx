@@ -1,34 +1,50 @@
-import React, { useState, useRef } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import { Button, Modal } from "@mantine/core";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Button, Flex, Loader, Modal } from "@mantine/core";
 
-const ErasureModal = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface ErasureModal {
+  open: boolean;
+  handleClose: () => void;
+  handleErase: (v: string) => void;
+  mutate: () => void;
+  image: string;
+}
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imageUploadRef = useRef<HTMLInputElement | null>(null);
+const ErasureModal = ({
+  open,
+  handleClose,
+  handleErase,
+  mutate,
+  image,
+}: ErasureModal) => {
+  const [loading, setLoading] = useState(true);
   const [isErasing, setIsErasing] = useState<boolean>(false);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const image = new Image();
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-      image.onload = () => {
-        if (canvasRef.current) {
-          const canvas = canvasRef.current;
-          const ctx = canvas.getContext("2d");
-          if (ctx) {
-            canvas.width = image.width;
-            canvas.height = image.height;
-            ctx.drawImage(image, 0, 0);
-          }
-        }
-      };
+  const drawImage = useCallback(() => {
+    const canvas = canvasRef.current;
+    const img = new Image();
 
-      image.src = URL.createObjectURL(file);
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        img.onload = () => {
+          setLoading(false);
+
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+      }
     }
-  };
+
+    img.src = image;
+  }, [image]);
+
+  useEffect(() => {
+    drawImage();
+  }, []);
 
   const handleMouseDown = () => {
     setIsErasing(true);
@@ -54,43 +70,45 @@ const ErasureModal = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const editedImage = canvas.toDataURL("image/png");
-      // Send `editedImage` to your server or perform any other desired actions.
+      await handleErase(editedImage);
+      mutate();
     }
   };
 
   const handleReset = () => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    }
+    drawImage();
   };
 
   return (
-    <>
-      <Modal opened={opened} onClose={close} title="Edit Image" size="auto">
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
-
-        <button onClick={handleSave}>Save</button>
-        <button onClick={handleReset}>Reset</button>
+    <Modal opened={open} onClose={handleClose} title="Edit Image" size="auto">
+      <Flex
+        sx={{
+          flexDirection: "column",
+          padding: "24px",
+          gap: "8px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {loading && <Loader />}
         <canvas
           ref={canvasRef}
           onMouseMove={handleMouseMove}
-          onMouseDown={handleMouseDown} // Prevent text selection while erasing
+          onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
-          width={500} // Set your desired canvas width
-          height={500} // Set your desired canvas height
-          style={{ border: "1px solid black" }}
         ></canvas>
-      </Modal>
-      <Button onClick={open}>Open modal</Button>
-    </>
+        <Button color="dark" onClick={handleSave} fullWidth>
+          Save
+        </Button>
+        <Button color="dark" variant="outline" onClick={handleReset} fullWidth>
+          Reset
+        </Button>
+      </Flex>
+    </Modal>
   );
 };
 

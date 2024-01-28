@@ -31,6 +31,22 @@ export const publishPost = async ({ params }: publishPostProps) => {
   return data;
 };
 
+interface erasePostProps {
+  params: {
+    post_id: string;
+    image_url: string;
+  };
+}
+
+export const erasePost = async ({ params }: erasePostProps) => {
+  const data = await post({
+    url: `${baseURL}/erase`,
+    body: params,
+  });
+
+  return data;
+};
+
 // TODO: delete if unneeded
 interface getPostProps {
   params: { postId?: string };

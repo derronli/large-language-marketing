@@ -7,7 +7,7 @@ import DatePicker from "@molecules/DatePicker";
 import EditableInput from "@molecules/EditableInput";
 import { useState } from "react";
 import ActionModal from "./ActionModal";
-import { publishPost } from "@api/content";
+import { erasePost, publishPost } from "@api/content";
 import ErasureModal from "./ErasureModal";
 
 interface CardProps {
@@ -34,6 +34,7 @@ const ActionCard = ({
 }: CardProps) => {
   const { campaign } = useCampaign();
   const [open, setOpen] = useState<string | null>(null);
+  const [erasure, setErasure] = useState(false);
 
   const { makeRequest: requestSaveDate } = useRequest({
     request: saveDate,
@@ -47,6 +48,11 @@ const ActionCard = ({
 
   const { makeRequest: requestSaveStatus } = useRequest({
     request: saveStatus,
+    requestByDefault: false,
+  });
+
+  const { makeRequest: requestErasePost } = useRequest({
+    request: erasePost,
     requestByDefault: false,
   });
 
@@ -79,6 +85,14 @@ const ActionCard = ({
     await requestSaveStatus({
       post_id: id,
       status: v,
+    });
+    mutate(`campaign_id=${campaign}`);
+  };
+
+  const handleErase = async (v: string) => {
+    await requestErasePost({
+      post_id: id,
+      image_url: v,
     });
     mutate(`campaign_id=${campaign}`);
   };
@@ -120,8 +134,15 @@ const ActionCard = ({
           </Text>
         </Flex>
         <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
-          <Flex sx={{ maxWidth: "100%" }}>
+          <Flex sx={{ maxWidth: "100%", flexDirection: "column" }}>
             <img style={{ width: "100%" }} src={image} />
+            <Button
+              variant="subtle"
+              color="dark"
+              onClick={() => setErasure(true)}
+            >
+              Edit Image
+            </Button>
           </Flex>
           {caption && (
             <EditableInput text={caption} handleSave={handleSaveCaption} />
@@ -153,7 +174,15 @@ const ActionCard = ({
       {loading && (
         <LoadingOverlay visible={loading} zIndex={1000} overlayBlur={2} />
       )}
-      <ErasureModal />
+      {erasure && (
+        <ErasureModal
+          open={erasure}
+          handleClose={() => setErasure(false)}
+          handleErase={handleErase}
+          mutate={() => mutate(`campaign_id=${campaign}`)}
+          image={image || ""}
+        />
+      )}
     </Flex>
   );
 };
