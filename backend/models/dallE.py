@@ -2,13 +2,14 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
-client = OpenAI(
-  api_key=os.environ.get("OPENAI_API_KEY")
-)
 
 def get_img(co_desc, product, era):
+  load_dotenv()
+
+  client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY")
+  )
+  
   prompt = f"Using this sample prompt:\n\n'{co_desc}'\n\nBuild off of it and generate a single prompt to give DallE in order to generate a digital poster advertisement for the product. The prompt should be 550 characters maximum.\n\nThe {product} should be the central focus, and the design should evoke nostalgia and be inspired by the {era} time period. Extract the theme from the above prompt and include elements in the design to convey the theme to viewers. If applicable, include characters and symbols from the theme. Everything else is up to you. The prompt should follow similar format to the below example:\n\nCreate a digital illustration poster with a Nike Air Force 1 shoe as the central focus, inspired by the early 2000s with a \"Pocket Monsters\" theme. Surround the shoe with colorful and unique \"Pocket Monsters\" creatures. Use vibrant reds, blues, and yellows in the shoe design to match the playful creatures. The background should resemble a \"Pocket Monsters\" adventure scene with tall grass, trainer characters, and \"Monster Balls.\" Add pixelated effects for a nostalgic Game Boy feel. Include the Nike Air Force 1 logo in a style that integrates with the theme. Feature trainers from the \"Pocket Monsters\" world wearing Nike Air Force 1 shoes. Use a vibrant color palette combining Nike and \"Pocket Monsters\" aesthetics, and integrate \"Monster Balls\" and evolution items into the typography and text. Add a slogan about \"capturing style\" in the \"Pocket Monsters\" world."
 
   img_prompt = make_chat_call(prompt)
