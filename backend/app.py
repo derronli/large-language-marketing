@@ -26,8 +26,9 @@ def profile():
 
         posts = make_post(theme)
 
+        gen_imgs = []
         for post in posts:
-            get_img(post, product, era, )
+            gen_imgs.append(get_img(post, product, era))
 
 
         insert_posts(campaign_id, posts)
