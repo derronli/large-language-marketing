@@ -48,4 +48,4 @@ def make_dallE_call(prompt):
   return response.data[0].url
 
 
-get_img("A sepia-toned photograph of a young woman with short hair gazing at her new QuantumX smartphone, its sleek metallic surface reflecting a blurred image of her face, reminiscent of the iconic matrix digital code. She holds the phone with a sense of wonder and curiosity, her eyes wide as she imagines the futuristic possibilities that it offers. Behind her, a futuristic cityscape at night evokes a sense of cyberculture and the exciting world of the Matrix.", "iPhone", "2000s")
+# get_img("A sepia-toned photograph of a young woman with short hair gazing at her new QuantumX smartphone, its sleek metallic surface reflecting a blurred image of her face, reminiscent of the iconic matrix digital code. She holds the phone with a sense of wonder and curiosity, her eyes wide as she imagines the futuristic possibilities that it offers. Behind her, a futuristic cityscape at night evokes a sense of cyberculture and the exciting world of the Matrix.", "iPhone", "2000s")
