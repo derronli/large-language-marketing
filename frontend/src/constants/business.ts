@@ -1,1 +1,1 @@
-export const product_name = "Placeholder";
+export const product_name = "LLM";
