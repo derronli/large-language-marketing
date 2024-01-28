@@ -5,12 +5,15 @@ import "@styles/global.css";
 import { AuthProvider } from "@context/authContext.tsx";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "@styles/theme.ts";
+import { CampaignProvider } from "@context/campaignContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <App />
+        <CampaignProvider>
+          <App />
+        </CampaignProvider>
       </MantineProvider>
     </AuthProvider>
   </React.StrictMode>

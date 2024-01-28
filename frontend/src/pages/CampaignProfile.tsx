@@ -1,16 +1,19 @@
 import { saveProfile } from "@api/db";
+import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
-import { useCallback, useState } from "react";
+import { LoadingOverlay } from "@mantine/core";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "src/components/layouts/Dashboard";
 
 const CampaignProfile = () => {
-  const { makeRequest } = useRequest({
+  const { data, loading, makeRequest } = useRequest({
     request: saveProfile,
     requestByDefault: false,
   });
 
   const navigate = useNavigate();
+  const { assignCampaign } = useCampaign();
 
   const [formData, setFormData] = useState({
     company: "",
@@ -62,10 +65,16 @@ const CampaignProfile = () => {
     async (e: any) => {
       e.preventDefault();
       await makeRequest(formData);
-      navigate("/plan");
     },
     [formData]
   );
+
+  useEffect(() => {
+    if (data) {
+      assignCampaign(data.id);
+      navigate("/plan");
+    }
+  }, [data]);
 
   return (
     <Dashboard header="Let's dive into the product.">
@@ -169,6 +178,9 @@ const CampaignProfile = () => {
           GENERATE CAMPAIGN
         </button>
       </form>
+      {loading && (
+        <LoadingOverlay visible={loading} zIndex={1000} overlayBlur={2} />
+      )}
     </Dashboard>
   );
 };

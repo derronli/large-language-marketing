@@ -21,7 +21,7 @@ def insert_profile(company, product, era, avenues):
     conn = get_conn()
     cur = conn.cursor()
     try:
-        company_id = str(uuid.uuid4()) # not okay lol
+        company_id = str(uuid.uuid4()) # TODO: not okay lol
         campaign_id = str(uuid.uuid4())
         cur.execute('INSERT INTO companies (campaign_id, company_id, company, product, era, avenues) VALUES (%s, %s, %s, %s, %s, %s);',
                     (campaign_id, company_id, company, product, era, avenues))
@@ -59,7 +59,7 @@ def select_posts(campaign_id):
         query = f"""
             SELECT post_id, date, status, caption, image
             FROM posts
-            WHERE campaign_id = '{campaign_id}'
+            WHERE campaign_id='{campaign_id}'
             ORDER BY date
         """
         cur.execute(query)
@@ -87,7 +87,7 @@ def update_post(post_id, item_name, item):
     conn = get_conn()
     cur = conn.cursor()
     try:
-        cur.execute('UPDATE posts SET (%s)=(%s) WHERE post_id=(%s);', (item_name, item, post_id))
+        cur.execute(f"UPDATE posts SET {item_name}='{parse_text(item)}' WHERE post_id='{post_id}';")
         conn.commit()
     except Exception as e:
         conn.rollback()

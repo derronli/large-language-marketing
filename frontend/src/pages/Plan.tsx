@@ -1,4 +1,5 @@
 import { getCampaign } from "@api/content";
+import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
 import { Flex } from "@mantine/core";
 import ActionCard from "@organisms/ActionCard";
@@ -7,20 +8,20 @@ import Dashboard from "src/components/layouts/Dashboard";
 import Pannable from "src/components/layouts/Pannable";
 
 const Plan = () => {
+  const { campaign } = useCampaign();
+
   const { data, makeRequest } = useRequest({
     request: getCampaign,
     requestByDefault: false,
   });
 
   useEffect(() => {
-    if (!data) {
-      makeRequest();
+    if (!data && campaign) {
+      makeRequest(`campaign_id=${campaign}`);
     }
-  }, [data, makeRequest]);
+  }, [data, makeRequest, campaign]);
 
   return (
-    // TODO: render as loading while data is not yet produced
-    // TODO: render based on data
     <Dashboard header="Here's the plan.">
       <Pannable>
         <Flex
@@ -29,73 +30,46 @@ const Plan = () => {
             gap: "60px",
           }}
         >
-          <ActionCard
-            label="Social Media Post"
-            date={new Date()}
-            image="wtv"
-            caption="Blocking out romance scams one 'Mean Girls' reference at a time! 💔 On this 'World Romance Scammers Prevention Day,' let's swipe right on awareness and left on suspicious behavior. Remember, real connections > Regina George drama. Stay sharp, stay safe, and keep it fetch! 💖🚫 #ScamFreeLove #MeanGirlsRomanceScamPrevention"
-            actions={[
-              {
-                name: "post",
-                label: "Post now",
-                action: () => {
-                  console.log("post");
-                },
-                variant: "filled",
-              },
-              {
-                name: "schedule",
-                label: "Schedule post",
-                action: () => {
-                  console.log("schedule");
-                },
-                variant: "outline",
-              },
-            ].reverse()}
-            mutate={makeRequest}
-          />
-          <ActionCard
-            label="Social Media Post"
-            date={new Date()}
-            image="wtv"
-            caption="Blocking out romance scams one 'Mean Girls' reference at a time! 💔 On this 'World Romance Scammers Prevention Day,' let's swipe right on awareness and left on suspicious behavior. Remember, real connections > Regina George drama. Stay sharp, stay safe, and keep it fetch! 💖🚫 #ScamFreeLove #MeanGirlsRomanceScamPrevention"
-            actions={[
-              {
-                name: "post",
-                label: "Post now",
-                action: () => {},
-                variant: "filled",
-              },
-              {
-                name: "schedule",
-                label: "Schedule post",
-                action: () => {},
-                variant: "outline",
-              },
-            ].reverse()}
-            mutate={makeRequest}
-          />
-          <ActionCard
-            label="Social Media Post"
-            date={new Date()}
-            image="wtv"
-            caption="Blocking out romance scams one 'Mean Girls' reference at a time! 💔 On this 'World Romance Scammers Prevention Day,' let's swipe right on awareness and left on suspicious behavior. Remember, real connections > Regina George drama. Stay sharp, stay safe, and keep it fetch! 💖🚫 #ScamFreeLove #MeanGirlsRomanceScamPrevention"
-            actions={[
-              {
-                name: "post",
-                label: "Post now",
-                action: () => {},
-                variant: "filled",
-              },
-              {
-                name: "schedule",
-                label: "Schedule post",
-                action: () => {},
-                variant: "outline",
-              },
-            ].reverse()}
-            mutate={makeRequest}
-          />
+          {data ? (
+            data.data.map((d: any) => (
+              <ActionCard
+                key={d.post_id}
+                id={d.post_id}
+                label="Social Media Post"
+                date={new Date(Date.parse(d.date))}
+                image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
+                caption={d.caption}
+                actions={[
+                  {
+                    name: "post",
+                    label: "Post now",
+                    action: () => {
+                      console.log("post");
+                    },
+                    variant: "filled",
+                    disabled: d.status == "posted",
+                  },
+                  {
+                    name: "schedule",
+                    label: "Schedule post",
+                    action: () => {},
+                    variant: "outline",
+                    disabled: d.status == "posted",
+                  },
+                ].reverse()}
+                mutate={makeRequest}
+              />
+            ))
+          ) : (
+            <ActionCard
+              id={"placeholder card"}
+              label="Placeholder"
+              date={new Date()}
+              image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
+              actions={[]}
+              mutate={makeRequest}
+            />
+          )}
         </Flex>
       </Pannable>
     </Dashboard>

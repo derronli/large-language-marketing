@@ -15,12 +15,12 @@ export const saveProfile = async ({ params }: saveProfileProps) => {
     url: `${baseURL}/profile`,
     body: params,
   });
-
   return data;
 };
 
 interface saveDateProps {
   params: {
+    post_id: string;
     date: Date;
   };
 }
@@ -36,6 +36,7 @@ export const saveDate = async ({ params }: saveDateProps) => {
 
 interface saveCaptionProps {
   params: {
+    post_id: string;
     caption: string;
   };
 }
@@ -51,6 +52,7 @@ export const saveCaption = async ({ params }: saveCaptionProps) => {
 
 interface saveStatusProps {
   params: {
+    post_id: string;
     status: string;
   };
 }

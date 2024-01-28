@@ -1,29 +1,37 @@
 import { saveCaption, saveDate } from "@api/db";
 import { Action } from "@constants/types";
+import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
 import { Button, Flex, Text } from "@mantine/core";
 import DatePicker from "@molecules/DatePicker";
 import EditableInput from "@molecules/EditableInput";
+import { useState } from "react";
+import ActionModal from "./ActionModal";
+import { publishPost } from "@api/content";
 
 interface CardProps {
+  id: string;
   label: string;
   date: Date;
   desc?: string;
   image?: string;
   caption?: string;
   actions: Action[];
-  mutate: () => void;
+  mutate: (v: any) => void;
 }
 
 const ActionCard = ({
+  id,
   label,
   date,
-  desc,
   image,
   caption,
   actions,
   mutate,
 }: CardProps) => {
+  const { campaign } = useCampaign();
+  const [open, setOpen] = useState<string | null>(null);
+
   const { makeRequest: requestSaveDate } = useRequest({
     request: saveDate,
     requestByDefault: false,
@@ -34,14 +42,37 @@ const ActionCard = ({
     requestByDefault: false,
   });
 
-  const handleSaveDate = (v: Date) => {
-    requestSaveDate(v);
-    mutate();
+  const { data: requestPublishRes, makeRequest: requestPublishPost } =
+    useRequest({
+      request: publishPost,
+      requestByDefault: false,
+    });
+
+  const handleSaveDate = async (v: Date) => {
+    await requestSaveDate({
+      post_id: id,
+      date: v,
+    });
+    mutate(`campaign_id=${campaign}`);
   };
 
-  const handleSaveCaption = (v: string) => {
-    requestSaveCaption(v);
-    mutate();
+  const handleSaveCaption = async (v: string) => {
+    await requestSaveCaption({
+      post_id: id,
+      caption: v,
+    });
+    mutate(`campaign_id=${campaign}`);
+  };
+
+  const handleAction = async (type: string) => {
+    if (image && caption) {
+      requestPublishPost({
+        media_url:
+          "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg", // TODO: replace
+        media_type: type === "Static Post" ? "IMAGE" : "STORIES",
+        caption: caption,
+      });
+    }
   };
 
   return (
@@ -69,10 +100,7 @@ const ActionCard = ({
         </Flex>
         <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
           <Flex sx={{ maxWidth: "100%" }}>
-            <img
-              style={{ width: "100%" }}
-              src="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: replace placeholder
-            />
+            <img style={{ width: "100%" }} src={image} />
           </Flex>
           {caption && (
             <EditableInput text={caption} handleSave={handleSaveCaption} />
@@ -81,7 +109,7 @@ const ActionCard = ({
             {actions.map((a) => (
               <Button
                 key={a.name}
-                onClick={a.action}
+                onClick={() => setOpen(a.name)}
                 variant={a.variant}
                 color="dark"
                 sx={{ fontSize: "12px" }}
@@ -92,6 +120,14 @@ const ActionCard = ({
           </Flex>
         </Flex>
       </Flex>
+      {open && (
+        <ActionModal
+          open={!!open}
+          type={requestPublishRes ? "success" : open}
+          handleClose={() => setOpen(null)}
+          handleAction={handleAction}
+        />
+      )}
     </Flex>
   );
 };

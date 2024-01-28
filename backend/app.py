@@ -30,10 +30,11 @@ def profile():
         for post in posts:
             gen_imgs.append(get_img(post, product, era))
 
-
         insert_posts(campaign_id, posts)
 
-        return jsonify({"success": True, "message": "Profile and campaign created successfully"})
+        return jsonify(
+            id=campaign_id
+        )
     except Exception as e:
         return bad_request(e)
 
@@ -56,6 +57,7 @@ def date():
         post_id = data.get('post_id')
         date = data.get('date')
         update_post_date(post_id, date)
+        return jsonify({"success": True})
     except Exception as e:
         return bad_request(e)
 
@@ -66,6 +68,7 @@ def caption():
         post_id = data.get('post_id')
         caption = data.get('caption')
         update_post_caption(post_id, caption)
+        return jsonify({"success": True})
     except Exception as e:
         return bad_request(e)
     
@@ -76,6 +79,7 @@ def status():
         post_id = data.get('post_id')
         status = data.get('status')
         update_post_status(post_id, status)
+        return jsonify({"success": True})
     except Exception as e:
         return bad_request(e)
     
@@ -84,6 +88,7 @@ def instagram_post():
     try:
         params = init_creds()
         data = request.get_json()
+
         params['media_type'] = data.get('media_type')
         params['media_url'] = data.get('media_url')
         params['caption'] = data.get('caption')
