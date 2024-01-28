@@ -125,8 +125,8 @@ const ActionCard = ({
         <Flex
           sx={{
             width: "100%",
-            backgroundColor: "black",
-            padding: "8px 16px",
+            backgroundColor: "#CBC2AE",
+            padding: "16px 16px",
             borderRadius: "5px 5px 0 0",
           }}
         >
@@ -135,10 +135,10 @@ const ActionCard = ({
           </Text>
         </Flex>
         <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
-          <Flex sx={{ maxWidth: "100%", flexDirection: "column" }}>
+          <Flex sx={{ maxWidth: "100%", flexDirection: "column", gap: "8px" }}>
             <img style={{ width: "100%" }} src={image} />
             <Button
-              variant="subtle"
+              variant="filled"
               color="dark"
               onClick={() => setErasure(true)}
             >
