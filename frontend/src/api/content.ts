@@ -1,4 +1,4 @@
-import { get } from "./fetchRequests";
+import { get, post } from "./fetchRequests";
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 interface getCampaignProps {
@@ -9,6 +9,23 @@ export const getCampaign = async ({ params }: getCampaignProps) => {
   const data = await get({
     url: `${baseURL}/campaign`,
     params: params,
+  });
+
+  return data;
+};
+
+interface publishPostProps {
+  params: {
+    media_type: string;
+    media_url: string;
+    caption: string;
+  };
+}
+
+export const publishPost = async ({ params }: publishPostProps) => {
+  const data = await post({
+    url: `${baseURL}/instagram`,
+    body: params,
   });
 
   return data;

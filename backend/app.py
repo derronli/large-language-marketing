@@ -83,6 +83,7 @@ def instagram_post():
     try:
         params = init_creds()
         data = request.get_json()
+
         params['media_type'] = data.get('media_type')
         params['media_url'] = data.get('media_url')
         params['caption'] = data.get('caption')
