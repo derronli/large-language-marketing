@@ -24,7 +24,6 @@ const ActionCard = ({
   id,
   label,
   date,
-  desc,
   image,
   caption,
   actions,
@@ -69,7 +68,7 @@ const ActionCard = ({
     if (image && caption) {
       requestPublishPost({
         media_url:
-          "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg",
+          "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg", // TODO: replace
         media_type: type === "Static Post" ? "IMAGE" : "STORIES",
         caption: caption,
       });
