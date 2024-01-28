@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button, Flex, Loader, Modal, Textarea, Text } from "@mantine/core";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 interface ErasureModal {
   open: boolean;
   handleClose: () => void;
@@ -23,7 +25,7 @@ const ErasureModal = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const drawImage = useCallback(() => {
-    fetch(`http://localhost:5000/proxy?url=${encodeURIComponent(image)}`)
+    fetch(`${baseURL}/proxy?url=${encodeURIComponent(image)}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
