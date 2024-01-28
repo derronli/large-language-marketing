@@ -61,7 +61,7 @@ const Plan = () => {
             ))
           ) : (
             <ActionCard
-              id={"placeholder card"}
+              id="bc4331aa-ea8c-45c0-98cc-efa7bec04943"
               label="Placeholder"
               date={new Date()}
               image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg"

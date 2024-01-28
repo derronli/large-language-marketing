@@ -106,3 +106,6 @@ def update_post_status(post_id, status):
 
 def update_post_caption(post_id, caption):
     update_post(post_id, "caption", caption)
+
+def update_post_image(post_id, image):
+    update_post(post_id, "image", image)

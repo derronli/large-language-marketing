@@ -1,8 +1,9 @@
 import requests
 from models.cohere import find_theme, make_post
+from models.dallE import edit_img
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
+from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts, update_post_image
 from models.instagram import createMediaObject, publishMedia, init_creds
 import base64
 
@@ -114,6 +115,9 @@ def erase_post():
 
         _, encoded = image_url.split(',', 1)
         image_binary = base64.b64decode(encoded)
+
+        image = edit_img(image_binary, prompt)
+        update_post_image(post_id, image)
 
         return jsonify({ 'success': True})
 

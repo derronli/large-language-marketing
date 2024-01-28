@@ -64,12 +64,9 @@ const ErasureModal = ({
         img.onload = () => {
           if (canvas) {
             const ctx = canvas.getContext("2d");
-
-            // Set canvas dimensions to match the image
             canvas.width = img.width;
             canvas.height = img.height;
 
-            // Draw the image onto the canvas
             if (ctx) {
               ctx.drawImage(img, 0, 0);
             }
@@ -116,17 +113,11 @@ const ErasureModal = ({
       const canvas = canvasRef.current;
 
       canvas.toBlob(async (blob) => {
-        // Convert Blob to a data URL
         const reader = new FileReader();
         reader.onloadend = async () => {
           const dataUrl = reader.result;
-
-          // Now 'dataUrl' contains the data URL representing the PNG image
-          console.log(dataUrl);
           setUrl(dataUrl);
-
-          // await handleErase(dataUrl, prompt);
-          // mutate();
+          attemptErase(dataUrl, prompt);
         };
         blob && reader.readAsDataURL(blob);
       }, "image/png");
@@ -137,11 +128,19 @@ const ErasureModal = ({
     drawImage();
   };
 
-  useEffect(() => {
-    if (url && prompt) {
-      handleErase(url, prompt);
-    }
-  }, [url, prompt]);
+  const attemptErase = useCallback(
+    async (url: any, prompt: any) => {
+      await handleErase(url, prompt);
+      mutate();
+    },
+    [handleErase, mutate]
+  );
+
+  // useEffect(() => {
+  //   if (url && prompt) {
+  //     attemptErase(url, prompt);
+  //   }
+  // }, [url, prompt]);
 
   return (
     <Modal opened={open} onClose={handleClose} title="Edit Image" size="auto">
