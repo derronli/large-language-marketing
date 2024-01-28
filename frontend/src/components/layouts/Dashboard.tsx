@@ -1,12 +1,15 @@
 import { Flex, Text } from "@mantine/core";
 import { product_name } from "@constants/business";
 import { LayoutProps } from "@constants/types";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardProps extends LayoutProps {
   header: string;
 }
 
 const Dashboard = ({ children, header }: DashboardProps) => {
+  const navigate = useNavigate();
+
   return (
     <Flex
       sx={{
@@ -30,11 +33,13 @@ const Dashboard = ({ children, header }: DashboardProps) => {
         }}
       >
         <Text
+          onClick={() => navigate("/")}
           sx={{
             textTransform: "uppercase",
             letterSpacing: "2px",
             fontWeight: 100,
             fontSize: "10px",
+            cursor: "pointer",
           }}
         >
           {product_name}

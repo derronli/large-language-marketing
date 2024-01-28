@@ -15,6 +15,7 @@ const Pannable = ({ children }: { children: ReactJSXElement }) => {
       <TransformWrapper
         limitToBounds={false}
         initialScale={1}
+        initialPositionX={-500}
         minScale={0.25}
         maxScale={3}
         doubleClick={{ disabled: true }}
