@@ -1,5 +1,4 @@
 from models.cohere import find_theme, make_post
-from models.dallE import get_img
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
@@ -21,15 +20,16 @@ def profile():
         era = data.get('era')
         avenues = data.get('avenues')
 
+        # save profile for campaign
         campaign_id = insert_profile(company, product, era, avenues)
+
+        # generate theme
         theme = find_theme(company, product, era)
 
-        posts = make_post(theme)
+        # generate posts
+        posts = make_post(theme, product, era)
 
-        gen_imgs = []
-        for post in posts:
-            gen_imgs.append(get_img(post, product, era))
-
+        # save posts for campaign
         insert_posts(campaign_id, posts)
 
         return jsonify(

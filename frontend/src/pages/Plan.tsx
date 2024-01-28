@@ -37,7 +37,7 @@ const Plan = () => {
                 id={d.post_id}
                 label="Social Media Post"
                 date={new Date(Date.parse(d.date))}
-                image="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: REPLACE
+                image={d.image}
                 caption={d.caption}
                 status={d.status}
                 actions={[

@@ -82,8 +82,7 @@ const ActionCard = ({
   const handleAction = async (type: string) => {
     if (image && caption) {
       await requestPublishPost({
-        media_url:
-          "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg", // TODO: replace
+        media_url: image,
         media_type: type === "Static Post" ? "IMAGE" : "STORIES",
         caption: caption,
       });
