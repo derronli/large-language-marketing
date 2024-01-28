@@ -1,5 +1,6 @@
+import requests
 from models.cohere import find_theme, make_post
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
 from models.instagram import createMediaObject, publishMedia, init_creds
@@ -109,9 +110,26 @@ def erase_post():
         data = request.get_json()
         post_id = data.get('post_id')
         image_url = data.get('image_url')
+        prompt = data.get('prompt')
 
         _, encoded = image_url.split(',', 1)
         image_binary = base64.b64decode(encoded)
 
+        return jsonify({ 'success': True})
+
+    except Exception as e:
+        return bad_request(e)
+    
+@app.route('/proxy')
+def proxy_img():
+    try:
+        url = request.args.get('url')
+        response = requests.get(url)
+
+        base64_image = base64.b64encode(response.content).decode('utf-8')
+        return jsonify({'image': base64_image})
+
+        # headers = {key: value for key, value in response.headers.items()}
+        # return send_file(response.content, mimetype=response.headers['Content-Type'])
     except Exception as e:
         return bad_request(e)

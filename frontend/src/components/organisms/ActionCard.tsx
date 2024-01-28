@@ -89,10 +89,11 @@ const ActionCard = ({
     mutate(`campaign_id=${campaign}`);
   };
 
-  const handleErase = async (v: string) => {
+  const handleErase = async (v: string, p: string) => {
     await requestErasePost({
       post_id: id,
       image_url: v,
+      prompt: p,
     });
     mutate(`campaign_id=${campaign}`);
   };
