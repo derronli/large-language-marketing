@@ -101,3 +101,15 @@ def instagram_post():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/erase', methods=['POST'])
+def erase_post():
+    try:
+        data = request.get_json()
+        post_id = data.get('post_id')
+        image_url = data.get('image_url')
+
+        
+
+    except Exception as e:
+        return bad_request(e)
