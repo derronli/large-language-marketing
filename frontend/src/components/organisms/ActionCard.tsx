@@ -39,16 +39,16 @@ const ActionCard = ({
     requestByDefault: false,
   });
 
-  const handleSaveDate = (v: Date) => {
-    requestSaveDate({
+  const handleSaveDate = async (v: Date) => {
+    await requestSaveDate({
       post_id: id,
       date: v,
     });
     mutate(`campaign_id=${campaign}`);
   };
 
-  const handleSaveCaption = (v: string) => {
-    requestSaveCaption({
+  const handleSaveCaption = async (v: string) => {
+    await requestSaveCaption({
       post_id: id,
       caption: v,
     });
