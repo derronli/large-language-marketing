@@ -1,4 +1,5 @@
 from models.cohere import find_theme, make_post
+from models.dallE import get_img
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.db import insert_profile, insert_posts, update_post_caption, update_post_date, update_post_status, select_posts
@@ -24,6 +25,11 @@ def profile():
         theme = find_theme(company, product, era)
 
         posts = make_post(theme)
+
+        for post in posts:
+            get_img(post, product, era, )
+
+
         insert_posts(campaign_id, posts)
 
         return jsonify({"success": True, "message": "Profile and campaign created successfully"})

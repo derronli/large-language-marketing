@@ -31,16 +31,21 @@ def make_post(theme):
 
     posts = []
     for desc in response.generations:
-        caption = caption_post(desc.text)
-        date = datetime(2022, 1, 1)
-        
-        posts.append({
-            "caption": caption,
-            "date": date,
-            "image": "dummy link" # TODO: model to generate and encode image... LINK ideally
-        })
-
+        posts.append(desc.text)
     return posts
+
+    # posts = []
+    # for desc in response.generations:
+    #     caption = caption_post(desc.text)
+    #     date = datetime(2022, 1, 1)
+        
+    #     posts.append({
+    #         "caption": caption,
+    #         "date": date,
+    #         "image": "dummy link" # TODO: model to generate and encode image... LINK ideally
+    #     })
+
+    # return posts
 
 def caption_post(post):
     prompt=use_prompt(CAPTION_POST_PROMPT, post={post})
