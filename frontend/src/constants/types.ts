@@ -9,4 +9,5 @@ export type Action = {
   label: string;
   action: (input: any) => void;
   variant: string;
+  disabled?: boolean;
 };

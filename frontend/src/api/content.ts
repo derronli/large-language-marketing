@@ -2,7 +2,7 @@ import { get } from "./fetchRequests";
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 interface getCampaignProps {
-  params: { company_id: string };
+  params: { campaign_id: string };
 }
 
 export const getCampaign = async ({ params }: getCampaignProps) => {

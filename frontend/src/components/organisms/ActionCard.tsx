@@ -1,21 +1,24 @@
 import { saveCaption, saveDate } from "@api/db";
 import { Action } from "@constants/types";
+import useCampaign from "@context/campaignContext";
 import useRequest from "@hooks/useRequest";
 import { Button, Flex, Text } from "@mantine/core";
 import DatePicker from "@molecules/DatePicker";
 import EditableInput from "@molecules/EditableInput";
 
 interface CardProps {
+  id: string;
   label: string;
   date: Date;
   desc?: string;
   image?: string;
   caption?: string;
   actions: Action[];
-  mutate: () => void;
+  mutate: (v: any) => void;
 }
 
 const ActionCard = ({
+  id,
   label,
   date,
   desc,
@@ -24,6 +27,8 @@ const ActionCard = ({
   actions,
   mutate,
 }: CardProps) => {
+  const { campaign } = useCampaign();
+
   const { makeRequest: requestSaveDate } = useRequest({
     request: saveDate,
     requestByDefault: false,
@@ -35,13 +40,19 @@ const ActionCard = ({
   });
 
   const handleSaveDate = (v: Date) => {
-    requestSaveDate(v);
-    mutate();
+    requestSaveDate({
+      post_id: id,
+      date: v,
+    });
+    mutate(`campaign_id=${campaign}`);
   };
 
   const handleSaveCaption = (v: string) => {
-    requestSaveCaption(v);
-    mutate();
+    requestSaveCaption({
+      post_id: id,
+      caption: v,
+    });
+    mutate(`campaign_id=${campaign}`);
   };
 
   return (
@@ -69,10 +80,7 @@ const ActionCard = ({
         </Flex>
         <Flex sx={{ flexDirection: "column", padding: "16px", gap: "12px" }}>
           <Flex sx={{ maxWidth: "100%" }}>
-            <img
-              style={{ width: "100%" }}
-              src="https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg" // TODO: replace placeholder
-            />
+            <img style={{ width: "100%" }} src={image} />
           </Flex>
           {caption && (
             <EditableInput text={caption} handleSave={handleSaveCaption} />
