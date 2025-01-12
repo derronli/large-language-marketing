@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-frontend
+  labels:
+    app: llm-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: llm-frontend
+  template:
+    metadata:
+      labels:
+        app: llm-frontend
+    spec:
+      containers:
+        - name: llm-frontend
+          image: derronli/llm-frontend:0.0.1
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 300m
+              memory: 300Mi
+            limits:
+              memory: 400Mi
