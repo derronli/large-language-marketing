@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Button,
   Flex,
-  Loader,
   Modal,
   Textarea,
   Text,
