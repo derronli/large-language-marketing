@@ -7,7 +7,7 @@ interface TitleProps {
   subTitle: string;
 }
 
-const Title = ({ img, mainTitle, subTitle }: TitleProps) => {
+const Title = ({ img, subTitle }: TitleProps) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
